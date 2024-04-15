@@ -6,7 +6,11 @@ import com.midas.app.services.AccountService;
 import com.midas.generated.api.AccountsApi;
 import com.midas.generated.model.AccountDto;
 import com.midas.generated.model.CreateAccountDto;
+import com.midas.generated.model.UpdateAccountDto;
+import jakarta.websocket.server.PathParam;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,5 +59,33 @@ public class AccountController implements AccountsApi {
     var accountsDto = accounts.stream().map(Mapper::toAccountDto).toList();
 
     return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+  }
+
+  /**
+   * PUT /accounts/{accountId} : Update user account Updates the user account with the given ID.
+   *
+   * @param accountId ID of the account to update (required)
+   * @param updateAccountDto Updated user account details (required)
+   * @return
+   */
+  @Override
+  public ResponseEntity<AccountDto> updateUserAccount(
+      @PathParam("accountId") String accountId, UpdateAccountDto updateAccountDto) {
+    logger.info(
+        "Updating First Name {} Last Name {} and Email Id {}",
+        updateAccountDto.getFirstName(),
+        updateAccountDto.getLastName(),
+        updateAccountDto.getFirstName());
+
+    var account =
+        accountService.updateAccount(
+            Account.builder()
+                .id(UUID.fromString(accountId))
+                .firstName(updateAccountDto.getFirstName())
+                .lastName(updateAccountDto.getLastName())
+                .email(updateAccountDto.getEmail())
+                .build());
+    if (Objects.isNull(account)) return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(Mapper.toAccountDto(account), HttpStatus.OK);
   }
 }

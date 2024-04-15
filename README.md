@@ -1,5 +1,7 @@
 # Getting Started
 
+Video Link https://drive.google.com/file/d/1WslU8_HXAht7pvs-wdCGkcuoUGVHFGMR/view?usp=drive_link
+
 **IMPORTANT: Do not send pull requests to this repository. This is a template repository and is not used for grading. Any pull requests will be closed and ignored.**
 
 ## Introduction

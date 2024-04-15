@@ -50,3 +50,5 @@ get:
       $ref: "../../common/responses.yml#/components/responses/forbidden"
     "500":
       $ref: "../../common/responses.yml#/components/responses/internalServerError"
+
+

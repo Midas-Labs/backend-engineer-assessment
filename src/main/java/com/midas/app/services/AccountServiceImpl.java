@@ -3,6 +3,7 @@ package com.midas.app.services;
 import com.midas.app.models.Account;
 import com.midas.app.repositories.AccountRepository;
 import com.midas.app.workflows.CreateAccountWorkflow;
+import com.midas.app.workflows.UpdateAccountWorkflow;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.workflow.Workflow;
@@ -49,5 +50,23 @@ public class AccountServiceImpl implements AccountService {
   @Override
   public List<Account> getAccounts() {
     return accountRepository.findAll();
+  }
+
+  /**
+   * updateAccount updates an account in the system or provider.
+   *
+   * @param details is the details of the account to be updated.
+   * @return Account
+   */
+  @Override
+  public Account updateAccount(Account details) {
+    var options =
+        WorkflowOptions.newBuilder()
+            .setTaskQueue(UpdateAccountWorkflow.QUEUE_NAME)
+            .setWorkflowId(details.getId().toString())
+            .build();
+    logger.info("initiating workflow to update account for account Id: {}", details.getId());
+    var workflow = workflowClient.newWorkflowStub(UpdateAccountWorkflow.class, options);
+    return workflow.updateAccount(details);
   }
 }

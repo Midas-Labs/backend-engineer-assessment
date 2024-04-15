@@ -22,6 +22,8 @@ public class Mapper {
         .firstName(account.getFirstName())
         .lastName(account.getLastName())
         .email(account.getEmail())
+        .providerId(account.getProviderId())
+        .paymentProviderType(account.getPaymentProviderType().name())
         .createdAt(account.getCreatedAt())
         .updatedAt(account.getUpdatedAt());
 

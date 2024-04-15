@@ -23,6 +23,8 @@ components:
 paths:
   /accounts:
     $ref: "./accounts/paths/accounts.yml"
+  /accounts/{accountId}:
+    $ref: "./accounts/paths/accountParam.yml"
 
 security:
   - bearerAuth: [ ]
