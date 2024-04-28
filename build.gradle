@@ -9,11 +9,12 @@ plugins {
 }
 
 group = 'com.midas'
-version = '0.0.1-SNAPSHOT'
+version = System.getenv('SERVICE_VERSION') ?: '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
 }
+
 
 configurations {
     compileOnly {
@@ -63,7 +64,6 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
 
 tasks.register('sonarlintListRules', SonarlintListRules) {
     description = 'List sonarlint rules'
