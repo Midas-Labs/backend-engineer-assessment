@@ -18,6 +18,11 @@ components:
           description: "Email of user"
           example: "john@doe.com"
           required: true
+          pattern: "^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-zA-Z]{2,})$"
+      required:
+        - firstName
+        - lastName
+        - email
     account:
       type: object
       properties:
@@ -51,13 +56,39 @@ components:
           description: "Prospect last updated time"
           readOnly: true
           example: "2022-04-13T01:52:40.690387Z"
+        providerType:
+          type: string
+          description: "Payment provider"
+          example: "stripe"
+        providerId:
+          type: string
+          description: "Payment provider account ID"
+          example: "acct_1J2j3k4l5m6n7o8p"
       example:
         - id: usr_fba5b240-0e68-4e64-aca6-f12022dc4be3
           firstName: "John"
           lastName: "Doe"
           creationAt: "2022-04-13T01:52:40.690387Z"
           updatedAt: "2022-04-13T01:52:40.690387Z"
-
+    updateAccount:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: "User's first name"
+          example: "John"
+          required: false
+        lastName:
+          type: string
+          description: "User's last name"
+          example: "Doe"
+          required: false
+        email:
+          type: string
+          description: "Email of user"
+          example: "john@doe.com"
+          required: false
+          pattern: "^[\\w-]+(\\.[\\w-]+)*@[\\w-]+(\\.[\\w-]+)*(\\.[a-zA-Z]{2,})$"
     accounts:
       type: array
       items:

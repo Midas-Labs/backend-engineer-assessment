@@ -30,3 +30,9 @@ components:
         application/json:
           schema:
             $ref: "./schemas.yml#/components/schemas/error"
+    serviceUnavailable:
+        description: Service unavailable
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yml#/components/schemas/error"

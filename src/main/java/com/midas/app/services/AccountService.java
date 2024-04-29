@@ -18,4 +18,12 @@ public interface AccountService {
    * @return List<Account>
    */
   List<Account> getAccounts();
+
+  /**
+   * updateAccount updates an existing account in the system or provider.
+   *
+   * @param details is the details of the account to be updated.
+   * @return Account
+   */
+  Account updateAccount(Account details);
 }

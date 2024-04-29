@@ -1,11 +1,11 @@
 package com.midas.app.controllers;
 
-import com.midas.app.mappers.Mapper;
-import com.midas.app.models.Account;
+import com.midas.app.mappers.AccountMapper;
 import com.midas.app.services.AccountService;
 import com.midas.generated.api.AccountsApi;
 import com.midas.generated.model.AccountDto;
 import com.midas.generated.model.CreateAccountDto;
+import com.midas.generated.model.UpdateAccountDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -31,15 +31,9 @@ public class AccountController implements AccountsApi {
   public ResponseEntity<AccountDto> createUserAccount(CreateAccountDto createAccountDto) {
     logger.info("Creating account for user with email: {}", createAccountDto.getEmail());
 
-    var account =
-        accountService.createAccount(
-            Account.builder()
-                .firstName(createAccountDto.getFirstName())
-                .lastName(createAccountDto.getLastName())
-                .email(createAccountDto.getEmail())
-                .build());
+    var account = accountService.createAccount(AccountMapper.toAccount(createAccountDto));
 
-    return new ResponseEntity<>(Mapper.toAccountDto(account), HttpStatus.CREATED);
+    return new ResponseEntity<>(AccountMapper.toAccountDto(account), HttpStatus.CREATED);
   }
 
   /**
@@ -52,8 +46,27 @@ public class AccountController implements AccountsApi {
     logger.info("Retrieving all accounts");
 
     var accounts = accountService.getAccounts();
-    var accountsDto = accounts.stream().map(Mapper::toAccountDto).toList();
+    var accountsDto = accounts.stream().map(AccountMapper::toAccountDto).toList();
 
     return new ResponseEntity<>(accountsDto, HttpStatus.OK);
+  }
+
+  /**
+   * PATCH /accounts/{accountId} : Update user account Updates the user account with the given
+   * details.
+   *
+   * @param accountId Account ID (required)
+   * @param updateAccountDto User account details (required)
+   * @return User account updated (status code 200)
+   */
+  @Override
+  public ResponseEntity<AccountDto> updateUserAccount(
+      String accountId, UpdateAccountDto updateAccountDto) {
+    logger.info("Updating account with ID: {}", accountId);
+
+    var account =
+        accountService.updateAccount(AccountMapper.toAccount(accountId, updateAccountDto));
+
+    return new ResponseEntity<>(AccountMapper.toAccountDto(account), HttpStatus.OK);
   }
 }

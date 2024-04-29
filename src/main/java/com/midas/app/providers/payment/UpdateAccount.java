@@ -6,7 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Builder
-public class CreateAccount {
+public class UpdateAccount {
   private String userId;
   private String firstName;
   private String lastName;

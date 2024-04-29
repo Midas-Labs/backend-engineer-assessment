@@ -28,6 +28,8 @@ post:
       $ref: "../../common/responses.yml#/components/responses/forbidden"
     "500":
       $ref: "../../common/responses.yml#/components/responses/internalServerError"
+    "503":
+      $ref: "../../common/responses.yml#/components/responses/serviceUnavailable"
 
 get:
   summary: Get list of user accounts
