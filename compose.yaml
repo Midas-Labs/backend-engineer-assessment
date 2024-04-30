@@ -17,16 +17,15 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        JAR_FILE_NAME: ${SERVICE_NAME}
         SERVICE_VERSION: ${SERVICE_VERSION}
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=${PROFILE}
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:${POSTGRES_PORT}/${POSTGRES_DB}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
       - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
-      - TEMPORAL_CONNECTION_TARGET=temporal:${TEMPORAL_PORT}
+      - TEMPORAL_CONNECTION_TARGET=${TEMPORAL_HOST}:${TEMPORAL_PORT}
     depends_on:
       - postgres
       - temporal
@@ -45,13 +44,13 @@ services:
     depends_on:
       - postgres
     ports:
-      - '7233:7233'
+      - ${TEMPORAL_PORT}:${TEMPORAL_PORT}
     networks:
       - mynetwork
   temporal-web:
     image: 'temporalio/web'
     environment:
-      - 'TEMPORAL_GRPC_ENDPOINT=temporal:7233'
+      - 'TEMPORAL_GRPC_ENDPOINT=${TEMPORAL_HOST}:${TEMPORAL_PORT}'
       - 'TEMPORAL_PERMIT_WRITE_API=true'
     depends_on:
       - temporal

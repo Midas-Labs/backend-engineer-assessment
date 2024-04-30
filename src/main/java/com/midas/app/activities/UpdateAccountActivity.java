@@ -3,9 +3,6 @@ package com.midas.app.activities;
 import com.midas.app.models.Account;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
-import io.temporal.activity.ActivityOptions;
-import io.temporal.common.RetryOptions;
-import java.time.Duration;
 
 @ActivityInterface
 public interface UpdateAccountActivity {
